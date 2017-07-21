@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 			if (s!= NULL)
 			{
 				tstruct = *localtime(&now);
-				strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+				strftime(buf, sizeof(buf), "%Y-%m-%dT%XZ", &tstruct);
 
 				printf("Date : %s\n", buf);
 				printf("Temp : %f\n",s->getTemperature());
