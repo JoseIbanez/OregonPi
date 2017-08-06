@@ -11,20 +11,19 @@ C code : test.cpp
 #include "RcOok.h"
 #include "Sensor.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	int RXPIN = 2;
 	int TXPIN = -1;
-        int loggingok;   // Global var indicating logging on or off
+    	int loggingok;   // Global var indicating logging on or off
         FILE *fp;        // Global var file handle
 
-        if(argc==2) {
-          fp = fopen(argv[1], "a"); // Log file opened in append mode to avoid destroying data
-          loggingok=1;
-          if (fp == NULL) {
-              perror("Failed to open log file!"); // Exit if file open fails
-              exit(EXIT_FAILURE);
-          }
+    	if(argc==2) {
+        	fp = fopen(argv[1], "a"); // Log file opened in append mode to avoid destroying data
+        	loggingok=1;
+        	if (fp == NULL) {
+            	perror("Failed to open log file!"); // Exit if file open fails
+            	exit(EXIT_FAILURE);
+          	}
         } else {
           loggingok=0;
         }
