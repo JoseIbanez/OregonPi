@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
 	while (1) {
 		if (!rc->OokAvailable()) {
-			delay(1000)
+			delay(1000);
 			continue;
 		}
 
@@ -65,24 +65,23 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
-		sprintf(filePath,"%s.$02d",folderPath,s->getChannel())
+		sprintf(filePath,"%s.%02d",folderPath,s->getChannel());
 
-		fp = fopen(filePath, "a"); // Open file where write measure
+		fp = fopen(filePath, "w"); // Open file where write measure
 		if (fp == NULL) {
         	perror("Failed to open file!");
             exit(EXIT_FAILURE);
         }
 
 		fprintf(fp,"Date: %s\n", buf);
-		fprintf(fp,"Temp: %f\n",s->getTemperature());
-		fprintf(fp,"Humidity: %f\n",s->getHumidity());
+		fprintf(fp,"Temp: %d\n",int(1000.0*s->getTemperature()));
+		fprintf(fp,"Humidity: %d\n",int(1000.0*s->getHumidity()));
 		fprintf(fp,"Channel: %d\n",s->getChannel());
 
 
-    	fprintf(fp,"%s,%d,temp%f,hum%f\n",buf,s->getChannel(),s->getTemperature(),s->getHumidity());
         fclose(fp);
 
 		delete s;
-		delay(1000);
+		return(0);
 	}
 }
