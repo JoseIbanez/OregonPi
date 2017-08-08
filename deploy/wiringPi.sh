@@ -1,8 +1,9 @@
 #!/bin/bash
 
-sudo apt-get install git-core
-sudo apt-get update
-sudo apt-get upgrade
+cd ~/Projects/
+sudo apt-get install -y git-core
+sudo apt-get update -y 
+sudo apt-get upgrade -y 
 git clone git://git.drogon.net/wiringPi
 cd wiringPi
 git pull origin

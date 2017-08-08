@@ -10,3 +10,7 @@ getTemp: RCSwitch.o RcOok.o Sensor.o getTemp.o
 
 clean:
 	$(RM) *.o test getTemp
+
+path:
+	sudo mkdir -p /var/oregonpi
+	sudo chown pi /var/oregonpi
