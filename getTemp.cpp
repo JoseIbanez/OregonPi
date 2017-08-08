@@ -15,20 +15,21 @@ int main(int argc, char *argv[]) {
 	int RXPIN = 2;
 	int TXPIN = -1;
 	int loggingok = 0;   // Global var indicating logging on or off
-	FILE *fp;        // Global var file handle
+	FILE *fp;   // Global var file handle
 
 	char message[100];
 	char buf[80];
 	char filePath[1000];
-    char *folderPath;
+	char *folderPath;
 	time_t     now = time(0);
-    struct tm  tstruct;
+	time_t     start = time(0);
+	struct tm  tstruct;
 
 
-    if(argc==2) {
-    	folderPath=argv[1];
-    	loggingok=1;
-    }
+	if(argc==2) {
+		folderPath=argv[1];
+		loggingok=1;
+	}
 
 	if(wiringPiSetup() == -1)
 		return 0;
@@ -36,6 +37,13 @@ int main(int argc, char *argv[]) {
 	RCSwitch *rc = new RCSwitch(RXPIN,TXPIN);
 
 	while (1) {
+
+		print start, now
+
+		if (start + 60 > now) {
+			return(0)
+		}
+
 		if (!rc->OokAvailable()) {
 			delay(1000);
 			continue;
@@ -51,7 +59,7 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
-    	now = time(0);
+		now = time(0);
 		tstruct = *localtime(&now);
 		strftime(buf, sizeof(buf), "%Y-%m-%dT%XZ", &tstruct);
 
@@ -60,7 +68,7 @@ int main(int argc, char *argv[]) {
 		printf("Humidity : %f\n",s->getHumidity());
 		printf("Channel : %d\n",s->getChannel());
 
-        if((!loggingok) || (s->getChannel()<=0)) {
+		if((!loggingok) || (s->getChannel()<=0)) {
 			delete(s);
 			continue;
 		}
@@ -69,19 +77,16 @@ int main(int argc, char *argv[]) {
 
 		fp = fopen(filePath, "w"); // Open file where write measure
 		if (fp == NULL) {
-        	perror("Failed to open file!");
-            exit(EXIT_FAILURE);
-        }
+			perror("Failed to open file!");
+			exit(EXIT_FAILURE);
+		}
 
 		fprintf(fp,"Date: %s\n", buf);
 		fprintf(fp,"Temp: %d\n",int(1000.0*s->getTemperature()));
 		fprintf(fp,"Humidity: %d\n",int(1000.0*s->getHumidity()));
 		fprintf(fp,"Channel: %d\n",s->getChannel());
-
-
-        fclose(fp);
-
+		fclose(fp);
 		delete s;
-		return(0);
+	
 	}
 }
