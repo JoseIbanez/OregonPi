@@ -38,10 +38,10 @@ int main(int argc, char *argv[]) {
 
 	while (1) {
 
-		print start, now
-
-		if (start + 60 > now) {
-			return(0)
+		now = time(0);
+		printf("%ld\n",now - start);
+		if (start + 60 < now) {
+			return(0);
 		}
 
 		if (!rc->OokAvailable()) {
@@ -59,7 +59,6 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
-		now = time(0);
 		tstruct = *localtime(&now);
 		strftime(buf, sizeof(buf), "%Y-%m-%dT%XZ", &tstruct);
 
